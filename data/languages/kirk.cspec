@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiler_spec>
+  <global>
+    <range space="rom" first="0x0000" last="0x3fff"/>
+    <range space="ram" first="0x0000" last="0x3fff"/>
+  </global>
+
+  <!-- This is just a dummy stack pointer to make the decompiler work. -->
+  <stackpointer register="sp" space="ram"/>
+
+  <default_proto>
+    <prototype extrapop="0" stackshift="0" strategy="register" name="__stdcall">
+      <input>
+      </input>
+      <output>
+        <pentry minsize="1" maxsize="1" extension="inttype">
+          <register name="ZR"/>
+        </pentry>
+      </output>
+    </prototype>
+  </default_proto>
+</compiler_spec>

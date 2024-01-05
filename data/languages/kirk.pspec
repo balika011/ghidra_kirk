@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<processor_spec>
+  <programcounter register="pc"/>
+  
+  <default_memory_blocks>
+    <memory_block name="ram" start_address="ram:0" length="0x4000" initialized="false"/>
+  </default_memory_blocks>
+
+  <default_symbols>
+    <symbol name="reset" address="rom:0x00000004" entry="true" type="code"/>
+  </default_symbols>
+</processor_spec>
