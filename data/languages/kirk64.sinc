@@ -91,13 +91,8 @@ define token pseudoInstr64(64)
 	t64_double_cond2   = (24, 27)
 ;
 
-<<<<<<< HEAD
-doubleBranchAddressSame: reloc is t64_double_branch1 [reloc = (t64_double_branch1 << 0);] {
-	export *[rom]:$(ADDRSIZE) reloc;
-=======
 doubleBranchAddressSame: t64_double_branch1 is t64_double_branch1 {
 	export *[rom]:$(ADDRSIZE) t64_double_branch1;
->>>>>>> 7615e99 (Fix wordsize and several instructions)
 }
 
 cc2: "ge" is t64_double_cond1=3 & t64_double_cond2=2        { tmp:1 = ZR || NG; export tmp; } #first bgt second beq
