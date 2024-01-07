@@ -5,7 +5,7 @@ define token instr64(64)
 	t64_imm32  = ( 0, 31)
 ;
 
-addr1_64: reloc is t64_addr1 [reloc = (t64_addr1 << 2);] {
+addr1_64: reloc is t64_addr1 [reloc = (t64_addr1 << 0);] {
 	export *[ram]:$(ADDRSIZE) reloc;
 }
 
@@ -91,7 +91,7 @@ define token pseudoInstr64(64)
 	t64_double_cond2   = (24, 27)
 ;
 
-doubleBranchAddressSame: reloc is t64_double_branch1 [reloc = (t64_double_branch1 << 2);] {
+doubleBranchAddressSame: reloc is t64_double_branch1 [reloc = (t64_double_branch1 << 0);] {
 	export *[rom]:$(ADDRSIZE) reloc;
 }
 

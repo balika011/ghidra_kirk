@@ -17,31 +17,31 @@ cc: "gt" is cond=3        { tmp:1 = NG; export tmp; }
 cc: "lt" is cond=4        { tmp:1 = (!NG && !ZR); export tmp; }
 COND: cc is cc { if (!cc) goto inst_next; }   # Execute conditionally
 
-addr1_16: reloc is t32_addr1 [reloc = (t32_addr1 << 2);] {
+addr1_16: reloc is t32_addr1 [reloc = (t32_addr1 << 0);] {
 	export *[ram]:2 reloc;
 }
 
-addr2_16: reloc is t32_addr2 [reloc = (t32_addr2 << 2);] {
+addr2_16: reloc is t32_addr2 [reloc = (t32_addr2 << 0);] {
 	export *[ram]:2 reloc;
 }
 
-addr1: reloc is t32_addr1 [reloc = (t32_addr1 << 2);] {
+addr1: reloc is t32_addr1 [reloc = (t32_addr1 << 0);] {
 	export *[ram]:4 reloc;
 }
 
-addr2: reloc is t32_addr2 [reloc = (t32_addr2 << 2);] {
+addr2: reloc is t32_addr2 [reloc = (t32_addr2 << 0);] {
 	export *[ram]:4 reloc;
 }
 
-addr1_128: reloc is t32_addr1 [reloc = (t32_addr1 << 2);] {
+addr1_128: reloc is t32_addr1 [reloc = (t32_addr1 << 0);] {
 	export *[ram]:16 reloc;
 }
 
-addr2_128: reloc is t32_addr2 [reloc = (t32_addr2 << 2);] {
+addr2_128: reloc is t32_addr2 [reloc = (t32_addr2 << 0);] {
 	export *[ram]:16 reloc;
 }
 
-branchAddress: reloc is t32_branch [reloc = (t32_branch << 2);] {
+branchAddress: reloc is t32_branch [reloc = (t32_branch << 0);] {
 	export *[rom]:$(ADDRSIZE) reloc;
 }
 

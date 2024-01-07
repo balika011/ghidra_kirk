@@ -3,8 +3,8 @@ define alignment=4;
 @define REGSIZE "4"
 @define ADDRSIZE "4"
 
-define space rom type=ram_space size=4 default;
-define space ram type=ram_space size=4;
+define space rom type=ram_space size=4 wordsize=4 default;
+define space ram type=ram_space size=4 wordsize=4;
 define space register type=register_space size=4;
 
 define register offset=0x1000 size=4 [
