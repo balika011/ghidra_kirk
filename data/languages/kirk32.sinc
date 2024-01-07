@@ -85,10 +85,12 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 
 
 :add addr1, addr2 is t32_opcode=0x1B & addr1 & addr2 {
-	#FIXME
 	local tmp:$(REGSIZE) = addr1;
-	local tmp2 = addr2;
-	addr2 = tmp + tmp2;
+	local res:$(REGSIZE) = tmp + addr2;
+	addr2 = res;
+
+	logicflags();
+	affectflags();
 }
 
 :mov16 addr1_16, addr2_16 is t32_opcode=0x43 & addr1_16 & addr2_16 {
@@ -107,7 +109,7 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 :xor addr1, addr2 is t32_opcode=0x4B & addr1 & addr2 {
 	local tmp:$(REGSIZE) = addr1;
 	local res:$(REGSIZE) = tmp ^ addr2;
-	addr1 = res;
+	addr2 = res;
 
 	logicflags();
 	affectflags();
