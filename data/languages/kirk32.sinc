@@ -17,32 +17,32 @@ cc: "gt" is cond=3        { tmp:1 = NG; export tmp; }
 cc: "lt" is cond=4        { tmp:1 = (!NG && !ZR); export tmp; }
 COND: cc is cc { if (!cc) goto inst_next; }   # Execute conditionally
 
-addr1_16: reloc is t32_addr1 [reloc = (t32_addr1 << 0);] {
-	export *[ram]:2 reloc;
+addr1_16: t32_addr1 is t32_addr1 {
+	export *[ram]:2 t32_addr1;
 }
 
-addr2_16: reloc is t32_addr2 [reloc = (t32_addr2 << 0);] {
-	export *[ram]:2 reloc;
+addr2_16: t32_addr2 is t32_addr2 {
+	export *[ram]:2 t32_addr2;
 }
 
-addr1: reloc is t32_addr1 [reloc = (t32_addr1 << 0);] {
-	export *[ram]:4 reloc;
+addr1: t32_addr1 is t32_addr1 {
+	export *[ram]:4 t32_addr1;
 }
 
-addr2: reloc is t32_addr2 [reloc = (t32_addr2 << 0);] {
-	export *[ram]:4 reloc;
+addr2: t32_addr2 is t32_addr2 {
+	export *[ram]:4 t32_addr2;
 }
 
-addr1_128: reloc is t32_addr1 [reloc = (t32_addr1 << 0);] {
-	export *[ram]:16 reloc;
+addr1_128: t32_addr1 is t32_addr1 {
+	export *[ram]:16 t32_addr1;
 }
 
-addr2_128: reloc is t32_addr2 [reloc = (t32_addr2 << 0);] {
-	export *[ram]:16 reloc;
+addr2_128: t32_addr2 is t32_addr2 {
+	export *[ram]:16 t32_addr2;
 }
 
-branchAddress: reloc is t32_branch [reloc = (t32_branch << 0);] {
-	export *[rom]:$(ADDRSIZE) reloc;
+branchAddress: t32_branch is t32_branch {
+	export *[rom]:$(ADDRSIZE) t32_branch;
 }
 
 imm1: immed is t32_imm1 [immed = 0 + t32_imm1;] {
@@ -60,7 +60,7 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 }
 
 :movp addr1, addr2 is t32_opcode=0x0D & addr1 & addr2 {
-	addr2 = *:4 addr1;
+	addr2 = *[ram]:4 addr1;
 }
 
 :movpp addr1, addr2 is t32_opcode=0x0E & addr1 & addr2 {
@@ -74,10 +74,9 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 	affectflags();
 }
 
-:sub addr1, addr2 is t32_opcode=0x16 & addr1 & addr2 {
-	local tmp:$(REGSIZE) = addr1;
-	local res:$(REGSIZE) = tmp - addr2;
-	addr1 = res;
+:subpp addr1, addr2 is t32_opcode=0x16 & addr1 & addr2 {
+	local tmp:$(REGSIZE) = *[ram]:4 addr1;
+	local res:$(REGSIZE) = tmp - *[ram]:4 addr2;
 
 	subflags(tmp, addr2);
 	resultflags(res);
@@ -96,10 +95,10 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 	addr2_16 = addr1_16;
 }
 
-:or addr1, addr2 is t32_opcode=0x44 & addr1 & addr2 {
+:orp addr1, addr2 is t32_opcode=0x44 & addr1 & addr2 {
 	local tmp:$(REGSIZE) = addr1;
-	local res:$(REGSIZE) = tmp | addr2;
-	addr1 = res;
+	local res:$(REGSIZE) = tmp | *[ram]:4 addr2;
+	*[ram]:4 addr2 = res;
 
 	logicflags();
 	affectflags();

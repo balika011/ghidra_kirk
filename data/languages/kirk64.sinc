@@ -5,8 +5,8 @@ define token instr64(64)
 	t64_imm32  = ( 0, 31)
 ;
 
-addr1_64: reloc is t64_addr1 [reloc = (t64_addr1 << 0);] {
-	export *[ram]:$(ADDRSIZE) reloc;
+addr1_64: t64_addr1 is t64_addr1 {
+	export *[ram]:$(ADDRSIZE) t64_addr1;
 }
 
 imm32_64: immed is t64_imm32 [immed = 0 + t64_imm32;] {
@@ -62,10 +62,10 @@ imm32_64: immed is t64_imm32 [immed = 0 + t64_imm32;] {
 	affectflags();
 }
 
-:or addr1_64, imm32_64 is t64_opcode=0x3A & addr1_64 & imm32_64 {
-	local tmp:$(REGSIZE) = addr1_64;
-	local res:$(REGSIZE) = tmp | imm32_64;
-	addr1_64 = res;
+:andp addr1_64, imm32_64 is t64_opcode=0x3A & addr1_64 & imm32_64 {
+	local tmp:$(REGSIZE) = *[ram]:4 addr1_64;
+	local res:$(REGSIZE) = tmp & imm32_64;
+	*[ram]:4 addr1_64 = res;
 
 	logicflags();
 	affectflags();
@@ -91,8 +91,13 @@ define token pseudoInstr64(64)
 	t64_double_cond2   = (24, 27)
 ;
 
+<<<<<<< HEAD
 doubleBranchAddressSame: reloc is t64_double_branch1 [reloc = (t64_double_branch1 << 0);] {
 	export *[rom]:$(ADDRSIZE) reloc;
+=======
+doubleBranchAddressSame: t64_double_branch1 is t64_double_branch1 {
+	export *[rom]:$(ADDRSIZE) t64_double_branch1;
+>>>>>>> 7615e99 (Fix wordsize and several instructions)
 }
 
 cc2: "ge" is t64_double_cond1=3 & t64_double_cond2=2        { tmp:1 = ZR || NG; export tmp; } #first bgt second beq
