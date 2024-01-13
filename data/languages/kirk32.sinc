@@ -139,12 +139,12 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 	affectflags();
 }
 
-:rol addr1, imm2 is t32_opcode=0x90 & addr1 & imm2 {
-	addr1 = (addr1 << imm2) | (addr1 >> (32 - imm2));
+:shl addr1, imm2 is t32_opcode=0x90 & addr1 & imm2 {
+	addr1 = (addr1 << imm2);
 }
 
-:ror addr1, imm2 is t32_opcode=0x98 & addr1 & imm2 {
-	addr1 = (addr1 >> imm2) | (addr1 << (32 - imm2));
+:shr addr1, imm2 is t32_opcode=0x98 & addr1 & imm2 {
+	addr1 = (addr1 >> imm2);
 }
 
 define pcodeop __builtin_setmode;
@@ -157,9 +157,10 @@ define pcodeop __builtin_byteswap;
 	addr1 = __builtin_byteswap(addr1);
 }
 
-:cmp addr1, imm2 is t32_opcode=0xC0 & addr1 & imm2 {
-	local tmp = addr1;
-	resultflags2(tmp, imm2);
+:bcheck addr1, imm2 is t32_opcode=0xC0 & addr1 & imm2 {
+	local tmp = addr1 & (1 << imm2);
+	local tmp2 = 1 << imm2;
+	resultflags2(tmp, tmp2);
 	affectflags();
 }
 
