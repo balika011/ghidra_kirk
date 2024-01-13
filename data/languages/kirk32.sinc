@@ -17,14 +17,6 @@ cc: "gt" is cond=3        { tmp:1 = NG; export tmp; }
 cc: "lt" is cond=4        { tmp:1 = (!NG && !ZR); export tmp; }
 COND: cc is cc { if (!cc) goto inst_next; }   # Execute conditionally
 
-addr1_16: t32_addr1 is t32_addr1 {
-	export *[ram]:2 t32_addr1;
-}
-
-addr2_16: t32_addr2 is t32_addr2 {
-	export *[ram]:2 t32_addr2;
-}
-
 addr1: t32_addr1 is t32_addr1 {
 	export *[ram]:4 t32_addr1;
 }
@@ -93,8 +85,10 @@ imm2: immed is t32_imm2 [immed = 0 + t32_imm2;] {
 	affectflags();
 }
 
-:mov16 addr1_16, addr2_16 is t32_opcode=0x43 & addr1_16 & addr2_16 {
-	addr2_16 = addr1_16;
+:mov16 addr1, addr2 is t32_opcode=0x43 & addr1 & addr2 {
+    local tmp_hi:$(REGSIZE) = addr2 & 0xffff0000;
+    local tmp_lo:$(REGSIZE) = addr1 & 0x0000ffff;
+    addr2 = tmp_hi | tmp_lo;
 }
 
 :orp addr1, addr2 is t32_opcode=0x44 & addr1 & addr2 {
