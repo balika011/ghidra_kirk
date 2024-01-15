@@ -41,7 +41,16 @@ imm32_64: immed is t64_imm32 [immed = 0 + t64_imm32;] {
 	affectflags();
 }
 
-:op_21 addr1_64 is t64_opcode=0x21 & t64_opcode & addr1_64 { __unknown_op(t64_opcode:1, addr1_64); }
+:addc addr1_64, imm32_64 is t64_opcode=0x21 & addr1_64 & imm32_64 {
+	local tmp:$(REGSIZE) = addr1_64;
+	local res1:$(REGSIZE) = tmp + zext(CY);
+	local res2:$(REGSIZE) = res1 + imm32_64;
+	addr1_64 = res2;
+
+	addflags(res1, imm32_64);
+	resultflags(res2);
+	affectflags();
+}
 
 :sub addr1_64, imm32_64 is t64_opcode=0x29 & addr1_64 & imm32_64 {
 	local tmp:$(REGSIZE) = addr1_64;
